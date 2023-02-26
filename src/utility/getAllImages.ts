@@ -2,7 +2,6 @@ import axios from "axios";
 
 const getALLImages = async () => {
     try {
-        console.log(process.env.REACT_APP_API_KEY);
         const res = await axios.get(
           `https://api.unsplash.com/photos/random?client_id=${process.env.REACT_APP_API_KEY}&count=10`
         );

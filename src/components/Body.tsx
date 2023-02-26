@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import getALLImages from "../utility/getAllImages";
 import ImageCard from "./ImageCard";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -8,7 +8,7 @@ import Loader from "./Loader";
 export default function Body() {
   const [images, setImages] = useState([]);
 
-  const fetchImages = () => {
+  const fetchImages = useCallback(() => {
     getALLImages()
       .then((data: []) => {
         setImages([...images, ...data]);
@@ -16,11 +16,12 @@ export default function Body() {
       .catch((err) => {
         console.log(err.message);
       });
-  };
+  }, []);
+
   useEffect(() => {
     //console.log("useEffect");
     fetchImages();
-  }, []);
+  }, [fetchImages]);
 
   return (
     <div className="p-2">
