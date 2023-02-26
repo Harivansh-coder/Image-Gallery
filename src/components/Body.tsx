@@ -1,0 +1,62 @@
+import { useState, useEffect } from "react";
+import getALLImages from "../utility/getAllImages";
+import ImageCard from "./ImageCard";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Loader from "./Loader";
+
+export default function Body() {
+  const [images, setImages] = useState([]);
+
+  const fetchImages = () => {
+    getALLImages()
+      .then((data: []) => {
+        setImages([...images, ...data]);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+  useEffect(() => {
+    //console.log("useEffect");
+    fetchImages();
+  }, []);
+
+  return (
+    <div className="p-2">
+      {images.length === 0 ? (
+        <div className="text-2xl flex items-center justify-center h-screen">
+          <Loader />
+        </div>
+      ) : (
+        <InfiniteScroll
+          dataLength={images.length}
+          next={fetchImages}
+          hasMore={true}
+          loader={<Loader />}
+        >
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{ 200: 1, 380: 2, 750: 3, 900: 4 }}
+          >
+            <Masonry gutter="10px">
+              {images.length === 0 ? (
+                <div className="text-2xl flex items-center justify-center h-screen">
+                  Loading...
+                </div>
+              ) : (
+                images.map((image: any) => {
+                  //console.log(image);
+                  return (
+                    <div className="m-1 md:grid-cols-2 lg:grid-cols-4">
+                      <ImageCard key={image.id} image={image} />
+                    </div>
+                  );
+                })
+              )}
+            </Masonry>
+          </ResponsiveMasonry>
+        </InfiniteScroll>
+      )}
+    </div>
+  );
+}
