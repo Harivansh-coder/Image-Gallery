@@ -8,6 +8,7 @@ const searchImages = async (query: string) => {
     return res.data;
   } catch (err) {
     console.log(err);
+    return [];
   }
 };
 
