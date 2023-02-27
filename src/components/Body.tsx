@@ -11,7 +11,7 @@ export default function Body() {
   const fetchImages = useCallback(() => {
     getALLImages()
       .then((data: []) => {
-        setImages([...images, ...data]);
+        setImages((prev) => [...prev, ...data]);
       })
       .catch((err) => {
         console.log(err.message);
@@ -37,7 +37,13 @@ export default function Body() {
           loader={<Loader />}
         >
           <ResponsiveMasonry
-            columnsCountBreakPoints={{ 200: 1, 380: 2, 750: 3, 900: 4 }}
+            columnsCountBreakPoints={{
+              200: 1,
+              380: 2,
+              750: 3,
+              900: 4,
+              1200: 5,
+            }}
           >
             <Masonry gutter="10px">
               {images.length === 0 ? (

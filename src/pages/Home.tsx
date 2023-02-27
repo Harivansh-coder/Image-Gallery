@@ -3,7 +3,7 @@ import Header from "../components/Header";
 
 const Home = () => {
   return (
-    <div className="App bg-white dark:bg-black">
+    <div className="App bg-gray-300 dark:bg-gray-900">
       <Header />
       <Body />
     </div>
