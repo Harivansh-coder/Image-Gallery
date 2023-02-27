@@ -1,8 +1,15 @@
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import DownloadIcon from "@mui/icons-material/Download";
 import { IconButton } from "@mui/material";
+import { useImageStore } from "../store/imageState";
 
 const Modal = (currentImage: any) => {
+  const setShowModal = useImageStore((state) => state.setShowModal);
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -58,7 +65,7 @@ const Modal = (currentImage: any) => {
                   </div>
                 </div>
               </div>
-              <IconButton aria-label="close" onClick={() => alert("close")}>
+              <IconButton aria-label="close" onClick={() => closeModal()}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 text-black dark:text-white"

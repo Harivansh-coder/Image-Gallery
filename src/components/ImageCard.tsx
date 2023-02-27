@@ -1,17 +1,13 @@
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { IconButton } from "@mui/material";
-import { useState } from "react";
+import { useImageStore } from "../store/imageState";
 import Modal from "./Modal";
 
 const ImageCard = (image: any) => {
-  const [showModal, setShowModal] = useState(false);
+  const showModal = useImageStore((state) => state.showModal);
+  const setShowModal = useImageStore((state) => state.setShowModal);
 
   const openModal = (image: any) => {
     setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
   };
 
   return showModal ? (
