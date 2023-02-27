@@ -8,35 +8,30 @@ import { useDebounce } from "usehooks-ts";
 import { useImageStore } from "../store/imageState";
 
 const Header = () => {
-  const [images, setImages] = useState([]);
   const [query, setQuery] = useState("");
 
-  const setImageState = useImageStore((state) => state.setImage);
+  // image store state
+  const setImagesState = useImageStore((state) => state.setImages);
   const setQueryState = useImageStore((state) => state.setQuery);
 
+  // debounce query
   const debouncedQuery = useDebounce(query, 500);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
     setQueryState(event.target.value);
+    fetchRequest();
   };
 
   // https://usehooks-ts.com/react-hook/use-debounce
 
   const fetchRequest = useCallback(() => {
-    searchImages(debouncedQuery).then((data: []) => {
-      setImages(data);
+    searchImages(debouncedQuery).then((data: any) => {
+      setImagesState(data.results);
     });
-    console.log(debouncedQuery);
-    console.log(images);
+  }, [debouncedQuery, setImagesState]);
 
-    setImageState(images);
-  }, [debouncedQuery]);
-
-  useEffect(() => {
-    fetchRequest();
-    setImages(images);
-  }, [debouncedQuery, fetchRequest]);
+  useEffect(() => {}, [debouncedQuery]);
 
   return (
     <div className="flex justify-between items-center bg-black text-white p-4 mb-4">
@@ -45,8 +40,6 @@ const Header = () => {
       </div>
       <div className="w-3/5 flex justify-between items-center">
         <FormControl className="bg-white w-4/5 lg:w-3/5 rounded-lg">
-          {/* https://usehooks-ts.com/react-hook/use-debounce */}
-          {/* Yeh Dekh lena agar search button nahi rakhna toh  ok*/}
           <Input
             className="py-1 px-2"
             id="standard-adornment-search"

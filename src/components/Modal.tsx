@@ -3,11 +3,16 @@ import DownloadIcon from "@mui/icons-material/Download";
 import { IconButton } from "@mui/material";
 import { useImageStore } from "../store/imageState";
 
-const Modal = (currentImage: any) => {
+const Modal = () => {
   const setShowModal = useImageStore((state) => state.setShowModal);
+  const image = useImageStore((state) => state.image);
+  const setImage = useImageStore((state) => state.setImage);
 
   const closeModal = () => {
+    console.log("closeModal", image);
+
     setShowModal(false);
+    setImage(undefined);
   };
 
   return (
@@ -36,31 +41,35 @@ const Modal = (currentImage: any) => {
               <div className="flex mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <div className="grid grid-cols-1 bg-white rounded-xl">
                   <img
-                    src={currentImage.currentImage.urls.full}
-                    alt={currentImage.currentImage.alt_description}
+                    src={image?.urls?.small}
+                    alt={image?.description}
                     loading="lazy"
                     className="rounded-xl"
                   />
                   <div className="flex justify-between items-center p-2 mr-2">
                     <div className="flex items-center font-mono text-xs lg:text-sm justify-start">
                       <img
-                        src={currentImage.currentImage.user.profile_image.small}
-                        alt={currentImage.currentImage.user.name}
+                        src={image?.user.profile_image.small}
+                        alt={image?.user.name}
                         className="rounded-full w-8 h-8 mr-2"
                       />
 
-                      {currentImage.currentImage.user.name}
+                      {image?.user.name}
                     </div>
                     <div className="flex ml-2 items-center font-medium text-sm">
-                      <DownloadIcon fontSize="small" className="mr-1" />
+                      <DownloadIcon
+                        fontSize="small"
+                        className="mr-1"
+                        onClick={() => {
+                          window.open(image?.links?.download, "_blank");
+                        }}
+                      />
                       {""}
-                      <div className="text-xs mr-2">
-                        {currentImage.currentImage.downloads}
+                      <div className="text-xs mr-2 overflow-hindde">
+                        {image?.downloads}
                       </div>
                       <ThumbUpIcon fontSize="inherit" className="mr-1" />{" "}
-                      <div className="text-xs">
-                        {currentImage.currentImage.likes}
-                      </div>
+                      <div className="text-xs">{image?.likes}</div>
                     </div>
                   </div>
                 </div>

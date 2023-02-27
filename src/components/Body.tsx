@@ -1,25 +1,32 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import getALLImages from "../utility/getAllImages";
 import ImageCard from "./ImageCard";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "./Loader";
+import { useImageStore } from "../store/imageState";
+import searchImages from "../utility/searchImages";
 
 export default function Body() {
-  const [images, setImages] = useState([]);
+  const images = useImageStore((state) => state.images);
+  const updateImages = useImageStore((state) => state.updateImages);
+  const query = useImageStore((state) => state.query);
+  const setImages = useImageStore((state) => state.setImages);
 
+  // get all images from api for home page
   const fetchImages = useCallback(() => {
-    getALLImages()
-      .then((data: []) => {
-        setImages((prev) => [...prev, ...data]);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
+    const isSearch = query !== "";
+    const res = isSearch ? searchImages(query) : getALLImages();
 
+    res.then((data) => {
+      isSearch ? updateImages(data) : setImages(data);
+    });
+  }, [query, setImages, updateImages]);
+
+  console.log(images, "Images");
+
+  // fetch images on page load
   useEffect(() => {
-    //console.log("useEffect");
     fetchImages();
   }, [fetchImages]);
 
@@ -51,11 +58,13 @@ export default function Body() {
                   Loading...
                 </div>
               ) : (
-                images.map((image: any) => {
-                  //console.log(image);
+                images?.map((image) => {
                   return (
-                    <div className="m-1 md:grid-cols-2 lg:grid-cols-4">
-                      <ImageCard key={image.id} image={image} />
+                    <div
+                      className="m-1 md:grid-cols-2 lg:grid-cols-4"
+                      key={image.id}
+                    >
+                      <ImageCard image={image} />
                     </div>
                   );
                 })
