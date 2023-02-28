@@ -103,10 +103,10 @@ export const useImageStore = create<ImageGalleryState>((set) => ({
   query: "",
   images: [],
   setImages: (image) => set((state) => ({ images: image })),
-  updateImages: (image) =>  set((state) => ({images: [state.images, ...image]})),
+  updateImages: (image) => set((state) => ({ images: [...state.images, ...image] })),
   setQuery: (query) => set((state) => ({ query: query })),
   showModal: false,
   setShowModal: (showModal) => set((state) => ({ showModal: showModal })),
-  image: undefined, // Now Good now pls check popup
+  image: undefined, 
   setImage: (image) => set((state) => ({ image: image })),
 }));

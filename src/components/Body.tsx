@@ -15,15 +15,14 @@ export default function Body() {
 
   // get all images from api for home page
   const fetchImages = useCallback(() => {
+    // check if query is empty then call get all images else call search images
     const isSearch = query !== "";
     const res = isSearch ? searchImages(query) : getALLImages();
 
     res.then((data) => {
-      isSearch ? updateImages(data) : setImages(data);
+      isSearch ? setImages(data) : updateImages(data);
     });
   }, [query, setImages, updateImages]);
-
-  console.log(images, "Images");
 
   // fetch images on page load
   useEffect(() => {
@@ -55,7 +54,7 @@ export default function Body() {
             <Masonry gutter="10px">
               {images.length === 0 ? (
                 <div className="text-2xl flex items-center justify-center h-screen">
-                  Loading...
+                  <Loader />
                 </div>
               ) : (
                 images?.map((image) => {
