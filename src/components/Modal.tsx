@@ -9,8 +9,6 @@ const Modal = () => {
   const setImage = useImageStore((state) => state.setImage);
 
   const closeModal = () => {
-    console.log("closeModal", image);
-
     setShowModal(false);
     setImage(undefined);
   };
@@ -19,7 +17,7 @@ const Modal = () => {
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+          <div className="absolute inset-0 bg-gray-500 opacity-70"></div>
         </div>
 
         <span
@@ -36,7 +34,7 @@ const Modal = () => {
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <div className="bg-white dark:bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="bg-white dark:bg-gray-500 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="flex mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <div className="grid grid-cols-1 bg-white rounded-xl">

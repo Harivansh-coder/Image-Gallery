@@ -27,7 +27,7 @@ const Header = () => {
 
   const fetchRequest = useCallback(() => {
     searchImages(debouncedQuery).then((data: any) => {
-      setImagesState(data.results);
+      setImagesState(data);
     });
   }, [debouncedQuery, setImagesState]);
 
